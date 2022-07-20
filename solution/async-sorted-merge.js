@@ -3,13 +3,13 @@
 // Print all entries, across all of the *async* sources, in chronological order.
 
 module.exports = (logSources, printer) => {
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     let entries = [];  // combine all sources entries
 
     for(let i = 0; i < logSources.length; i++) { // loop through each source
       const s = logSources[i];
       while (!s.drained) { // run untill source drained
-        const entry = s.pop();
+        const entry = await s.popAsync();
         if (!entry) break;
   
         entries.push(entry);
